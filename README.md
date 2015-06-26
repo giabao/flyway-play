@@ -30,13 +30,6 @@ libraryDependencies ++= Seq(
 )
 ```
 
-conf/application.conf
-
-```
-play.modules.enabled += "org.flywaydb.play.PlayModule"
-```
-
-
 ## <a class="anchor" name="getting-started"></a>Getting Started
 
 ### Basic configuration

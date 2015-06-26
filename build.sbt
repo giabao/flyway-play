@@ -2,7 +2,7 @@ scalariformSettings
 
 val flywayPlayVersion = "2.1.0-SNAPSHOT"
 
-val scalatest = "org.scalatest" %% "scalatest" % "2.1.5" % "test"
+val scalatest = "org.scalatest" %% "scalatest" % "2.2.+" % "test"
 
 lazy val plugin = Project (
   id = "plugin",
@@ -12,14 +12,14 @@ lazy val plugin = Project (
     name := "flyway-play",
     organization := "org.flywaydb",
     version := flywayPlayVersion,
-    scalaVersion := "2.10.5",
-    crossScalaVersions := scalaVersion.value :: "2.11.6" :: Nil,
+    scalaVersion := "2.11.7",
+    crossScalaVersions := scalaVersion.value :: "2.10.5" :: Nil,
     resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
     libraryDependencies ++= Seq(
       "com.typesafe.play" %% "play" % play.core.PlayVersion.current % "provided",
       "com.typesafe.play" %% "play-test" % play.core.PlayVersion.current % "test"
-        excludeAll(ExclusionRule(organization = "org.specs2")),
-      "org.flywaydb" % "flyway-core" % "3.1",
+        excludeAll ExclusionRule(organization = "org.specs2"),
+      "org.flywaydb" % "flyway-core" % "3.2.+",
       scalatest
     ),
     scalacOptions ++= Seq("-language:_", "-deprecation")
@@ -27,11 +27,12 @@ lazy val plugin = Project (
 )
 
 val appDependencies = Seq(
-  "com.h2database" % "h2" % "[1.3,)",
-  "postgresql" % "postgresql" % "9.1-901.jdbc4",
+  "com.h2database" % "h2" % "[1.4,)",
+  "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
   "com.typesafe.play" %% "play-test" % play.core.PlayVersion.current % "test"
-    excludeAll(ExclusionRule(organization = "org.specs2")),
-  "org.scalikejdbc" %% "scalikejdbc-play-initializer" % "2.4.0-M2-20141215",
+    excludeAll ExclusionRule(organization = "org.specs2"),
+  "org.scalikejdbc" %% "scalikejdbc"                  % "2.2.+",
+  "org.scalikejdbc" %% "scalikejdbc-play-initializer" % "2.4.+",
   scalatest
 )
 
@@ -41,10 +42,10 @@ val playAppVersion = "1.0-SNAPSHOT"
 lazy val playapp = Project(
   playAppName,
   file("playapp")
-).enablePlugins(play.PlayScala).settings(scalariformSettings:_*)
+).enablePlugins(play.sbt.PlayScala).settings(scalariformSettings:_*)
 .settings(
   resourceDirectories in Test += baseDirectory.value / "conf",
-  scalaVersion := "2.10.5",
+  scalaVersion := "2.11.7",
   version := playAppVersion,
   libraryDependencies ++= appDependencies
 )
